@@ -1,8 +1,10 @@
 int cols, rows;
 int scl = 20; //scale
-int w = 600;
-int h = 600;
-  
+int w = 1600;
+int h = 1600;
+
+float flying = 0;
+
 float [][] terrain;
 
 void setup(){
@@ -10,14 +12,21 @@ void setup(){
   cols = w/scl;
   rows = h/scl;
   terrain = new float[cols][rows];
-  for(int y = 0; y < rows; y++){
-    for(int x = 0; x < cols; x++){
-      terrain[x][y] = random(-10,15);
-    }
-  }
+  
 }
 
 void draw(){
+  flying -= 0.1;
+  float yoff = flying;
+  for(int y = 0; y < rows; y++){
+    float xoff = 0;
+    for(int x = 0; x < cols; x++){
+      terrain[x][y] = map(noise(xoff, yoff), 0, 1, -30, 50);
+      xoff += 0.3;
+    }
+    yoff += 0.3;
+  }
+  
   background(0);
   stroke(255);
   noFill();
